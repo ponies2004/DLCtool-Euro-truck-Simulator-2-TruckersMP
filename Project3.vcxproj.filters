@@ -29,6 +29,12 @@
     <ClInclude Include="resource2.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="resource3.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="resource4.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Project31.rc">
@@ -36,7 +42,7 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="D:\火狐下载\icon.ico">
+    <Image Include="D:\火狐下载\favicon.ico">
       <Filter>资源文件</Filter>
     </Image>
   </ItemGroup>

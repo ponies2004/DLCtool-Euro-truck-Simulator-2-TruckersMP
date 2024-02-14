@@ -24,6 +24,7 @@ bool operator==(const std::string& lhs, const std::wstring& rhs) {
 #define ID_BUTTON3 3
 #define ID_BUTTON4 4
 #define ID_BUTTON5 5
+#define ID_BUTTON6 6
 #define IDC_STATIC_TEXT 7
 #define version 8
 
@@ -46,9 +47,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     HWND hwnd = CreateWindowEx(
         0,
         CLASS_NAME,
-        L"Super活动团队助手 By:忘心",
+        L"Dlctools By:iamwannngg",
         WS_OVERLAPPEDWINDOW & ~WS_THICKFRAME & ~WS_MAXIMIZEBOX, // 禁止用户最大化和调整窗口大小
-        (GetSystemMetrics(SM_CXSCREEN) - 800) / 2, (GetSystemMetrics(SM_CYSCREEN) - 400) / 2, 800, 400, // 在桌面中间打开
+        (GetSystemMetrics(SM_CXSCREEN) - 400) / 2, (GetSystemMetrics(SM_CYSCREEN) - 230) / 2, 400, 230, // 在桌面中间打开
         NULL,
         NULL,
         hInstance,
@@ -87,11 +88,11 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
     switch (uMsg) {
     case WM_CREATE: {
 
-        // 获取服务器上的公告内容
+        // 获取服务器上的announcement内容
         HINTERNET hInternetAnnounce = InternetOpen(L"HTTPGET", INTERNET_OPEN_TYPE_DIRECT, NULL, NULL, 0);
-        HINTERNET hConnectAnnounce = InternetOpenUrl(hInternetAnnounce, L"https://super.henrylogistics.cn/gonggao.txt", NULL, 0, INTERNET_FLAG_RELOAD, 0);
+        HINTERNET hConnectAnnounce = InternetOpenUrl(hInternetAnnounce, L"http://henrylogistics.cn/dlc/announcement.txt", NULL, 0, INTERNET_FLAG_RELOAD, 0);
 
-        std::wstring announcement; // 保存公告内容
+        std::wstring announcement; // 保存announcement内容
 
         if (hConnectAnnounce) {
             char bufferAnnounce[4096];
@@ -111,7 +112,7 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 
         // 获取服务器上的最新版本号
         HINTERNET hInternet = InternetOpen(L"HTTPGET", INTERNET_OPEN_TYPE_DIRECT, NULL, NULL, 0);
-        HINTERNET hConnect = InternetOpenUrl(hInternet, L"http://super.henrylogistics.cn/version.txt", NULL, 0, INTERNET_FLAG_RELOAD, 0);
+        HINTERNET hConnect = InternetOpenUrl(hInternet, L"http://henrylogistics.cn/dlc/version.txt", NULL, 0, INTERNET_FLAG_RELOAD, 0);
 
         if (hConnect) {
             char buffer[1024];
@@ -121,41 +122,41 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
             std::string serverVersion(buffer);
 
             // 当前程序的版本号
-            std::wstring currentVersion = L"V.0.0.2";
+            std::wstring currentVersion = L"V.0.0.1";
 
             // 比较版本号
             if (serverVersion == currentVersion) {
                 // 版本相同
-                MessageBox(hwnd, L"当前已经是最新版本！", L"提示", MB_OK | MB_ICONINFORMATION);
+                MessageBox(hwnd, L"It is already the latest version!", L"hint", MB_OK | MB_ICONINFORMATION);
 
-                std::remove("Super活动助手V.0.0.1.exe");
+                std::remove("DlctoolsV.0.0.1.exe");
                 if (!announcement.empty()) {
-                    MessageBox(hwnd, announcement.c_str(), L"公告", MB_OK | MB_ICONINFORMATION);
+                    MessageBox(hwnd, announcement.c_str(), L"announcement", MB_OK | MB_ICONINFORMATION);
                 }
             }
             else {
                 // 版本不同
-                MessageBox(hwnd, L"发现新版本，请及时更新！", L"提示", MB_OK | MB_ICONWARNING);
-                URLDownloadToFile(NULL, L"http://super.henrylogistics.cn/Project3.exe", L"Super活动助手_new.exe", 0, NULL);
+                MessageBox(hwnd, L"If you find a new version, please update it in time!", L"hint", MB_OK | MB_ICONWARNING);
+                URLDownloadToFile(NULL, L"http://henrylogistics.cn/dlc/Project3.exe", L"Dlctools_new.exe", 0, NULL);
 
                 // 获取服务器返回的新版本号
-                std::string versionNumber = "V.0.0.2"; // 替换为从服务器获取的新版本号
+                std::string versionNumber = "V.0.0.1"; // 替换为从服务器获取的新版本号
 
-                std::wstring newFileName = L"Super活动助手" + std::wstring(versionNumber.begin(), versionNumber.end()) + L".exe";
-                std::wstring oldFileName = L"Super活动助手_new.exe";
+                std::wstring newFileName = L"Dlctools" + std::wstring(versionNumber.begin(), versionNumber.end()) + L".exe";
+                std::wstring oldFileName = L"Dlctools_new.exe";
 
                 TCHAR szFileName[MAX_PATH];
                 GetModuleFileName(NULL, szFileName, MAX_PATH);
                 // 重命名新版本文件
                 if (MoveFileEx(oldFileName.c_str(), newFileName.c_str(), MOVEFILE_REPLACE_EXISTING)) {
-                    MessageBox(hwnd, L"更新完成，即将重启应用程序以应用新版本！", L"提示", MB_OK | MB_ICONINFORMATION);
+                    MessageBox(hwnd, L"The update is complete and the application will be restarted to apply the new version!", L"hint", MB_OK | MB_ICONINFORMATION);
                     // 启动新版本应用程序
                     ShellExecute(NULL, L"open", newFileName.c_str(), NULL, NULL, SW_SHOWNORMAL);
 
                     SendMessage(hwnd, WM_CLOSE, 0, 0);
                 }
                 else {
-                    MessageBox(hwnd, L"无法重命名新版本文件！", L"错误", MB_OK | MB_ICONERROR);
+                    MessageBox(hwnd, L"Unable to rename new version file!", L"Error", MB_OK | MB_ICONERROR);
                 }
             }
 
@@ -164,89 +165,33 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
             InternetCloseHandle(hInternet);
         }
         else {
-            MessageBox(hwnd, L"无法连接到服务器获取版本信息！", L"版本检测", MB_OK | MB_ICONERROR);
+            MessageBox(hwnd, L"Unable to connect to the server to get version information!", L"Version detection", MB_OK | MB_ICONERROR);
         }
 
-        // 获取服务器上的数据内容
-        HINTERNET hInternetData = InternetOpen(L"HTTPGET", INTERNET_OPEN_TYPE_DIRECT, NULL, NULL, 0);
-        HINTERNET hConnectData = InternetOpenUrl(hInternetData, L"https://super.henrylogistics.cn/data.txt", NULL, 0, INTERNET_FLAG_RELOAD, 0);
-
-        std::wstring dataContent; // 保存数据内容
-
-        if (hConnectData) {
-            char bufferData[4096];
-            DWORD bytesReadData = 0;
-            InternetReadFile(hConnectData, bufferData, sizeof(bufferData), &bytesReadData);
-            bufferData[bytesReadData] = '\0'; // 添加字符串结束标志
-
-            // 将多字节字符串转换为宽字符串
-            int lenWideData = MultiByteToWideChar(CP_UTF8, 0, bufferData, -1, NULL, 0);
-            std::vector<wchar_t> wideBufferData(lenWideData);
-            MultiByteToWideChar(CP_UTF8, 0, bufferData, -1, &wideBufferData[0], lenWideData);
-            dataContent = std::wstring(wideBufferData.begin(), wideBufferData.end());
-
-            InternetCloseHandle(hConnectData);
-            InternetCloseHandle(hInternetData);
-        }
-
-        // 获取当前CC存档内容
-        std::wstring currentCCSave = L"当前CC存档内容："; // 假设这是你的当前CC存档内容
-
-        // 合并当前CC存档内容和从服务器获取的数据内容
-        std::wstring combinedContent = currentCCSave + L"" + dataContent;
-
-        // 创建静态文本控件来显示合并后的内容
-        HWND hStaticTextCombined = CreateWindow(L"STATIC", combinedContent.c_str(),
-            WS_VISIBLE | WS_CHILD | SS_LEFT | WS_EX_TRANSPARENT,
-            10, 150, 780, 60,
-            hwnd, NULL, GetModuleHandle(NULL), NULL);
-
-        // 设置静态文本控件字体
-        HFONT hFontCombined = CreateFont(20, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, DEFAULT_CHARSET,
-            OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, CLEARTYPE_QUALITY, DEFAULT_PITCH, L"微软雅黑");
-        SendMessage(hStaticTextCombined, WM_SETFONT, (WPARAM)hFontCombined, TRUE);
-
-
-        CreateWindow(L"BUTTON", L"获取存档路径",
+         CreateWindow(L"BUTTON", L"Get DLC path",
             WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,
             10, 10, 180, 30,
-            hwnd, (HMENU)ID_BUTTON1, GetModuleHandle(NULL), NULL);
-
-        g_hTextBox1 = CreateWindow(L"EDIT", L"",
-            WS_VISIBLE | WS_CHILD | WS_BORDER | ES_READONLY | ES_MULTILINE,
-            10, 50, 360, 50,
-            hwnd, NULL, GetModuleHandle(NULL), NULL);
-
-         CreateWindow(L"BUTTON", L"获取DLC路径",
-            WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,
-            410, 10, 180, 30,
             hwnd, (HMENU)ID_BUTTON2, GetModuleHandle(NULL), NULL);
 
         g_hTextBox2 = CreateWindow(L"EDIT", L"",
             WS_VISIBLE | WS_CHILD | WS_BORDER | ES_READONLY | ES_MULTILINE,
-            410, 50, 360, 50,
+            10, 50, 360, 50,
             hwnd, NULL, GetModuleHandle(NULL), NULL);
 
-        // 创建新的按钮
-        CreateWindow(L"BUTTON", L"一键替换存档",
+        CreateWindow(L"BUTTON", L"Disable DLC",
             WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,
-            120, 200, 150, 40,
-            hwnd, (HMENU)ID_BUTTON3, GetModuleHandle(NULL), NULL);
-
-        CreateWindow(L"BUTTON", L"一键禁用DLC",
-            WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,
-            320, 200, 150, 40,
+            10, 110, 100, 40,
             hwnd, (HMENU)ID_BUTTON4, GetModuleHandle(NULL), NULL);
 
-        CreateWindow(L"BUTTON", L"一键启用DLC",
+        CreateWindow(L"BUTTON", L"Enable DLC",
             WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,
-            520, 200, 150, 40,
+            150, 110, 100, 40,
             hwnd, (HMENU)ID_BUTTON5, GetModuleHandle(NULL), NULL);
 
         // 创建静态文本控件
-        HWND hStaticText = CreateWindow(L"STATIC", L"© 2024 Super活动团队助手 By:忘心",
+        HWND hStaticText = CreateWindow(L"STATIC", L"© 2024 Dlctools By:iamwannngg",
             WS_VISIBLE | WS_CHILD | SS_LEFT | WS_EX_TRANSPARENT,
-            10, 340, 780, 30,
+            10, 170, 380, 30,
             hwnd, (HMENU)IDC_STATIC_TEXT, GetModuleHandle(NULL), NULL);
 
         // 设置静态文本控件字体
@@ -255,9 +200,9 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
         SendMessage(hStaticText, WM_SETFONT, (WPARAM)hFont, TRUE);
 
         // 创建静态文本控件
-        HWND hStaticText2 = CreateWindow(L"STATIC", L"V.0.0.2",
+        HWND hStaticText2 = CreateWindow(L"STATIC", L"V.0.0.1",
             WS_VISIBLE | WS_CHILD | SS_LEFT | WS_EX_TRANSPARENT,
-            270, 340, 780, 30,
+            270, 170, 380, 30,
             hwnd, (HMENU)version, GetModuleHandle(NULL), NULL);
 
         HFONT hFont2 = CreateFont(17, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, DEFAULT_CHARSET,
@@ -286,31 +231,6 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
     }
     case WM_COMMAND: {
         switch (LOWORD(wParam)) {
-        case ID_BUTTON1: {
-            if (HIWORD(wParam) == BN_CLICKED) {
-                std::wstring command = L"reg query \"HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\User Shell Folders\" /v Personal";
-                std::wstring result = L"";
-
-                wchar_t buffer[128];
-                FILE* pipe = _wpopen(command.c_str(), L"r");
-                if (pipe) {
-                    while (!feof(pipe)) {
-                        if (fgetws(buffer, 128, pipe) != nullptr)
-                            result += buffer;
-                    }
-                    _pclose(pipe);
-                }
-
-                std::vector<std::wstring> lines = SplitString(result, L'\n');
-                if (lines.size() >= 3) {
-                    std::wstring personalDir = lines[2].substr(lines[2].find(L"REG_EXPAND_SZ") + 14);
-                    personalDir.erase(0, personalDir.find_first_not_of(L' '));
-                    personalDir.erase(personalDir.find_last_not_of(L" \t\n\r\f\v") + 1);
-                    SetWindowText(g_hTextBox1, (personalDir + L"\\Euro Truck Simulator 2\\profiles").c_str());
-                }
-            }
-            break;
-        }
         case ID_BUTTON2: {
             if (HIWORD(wParam) == BN_CLICKED) {
                 std::wstring command = L"reg query \"HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Steam App 227300\" /v InstallLocation";
@@ -342,91 +262,6 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
             break;
         }
 
-        case ID_BUTTON3: {
-            wchar_t textBuffer[256];
-            GetWindowText(g_hTextBox1, textBuffer, 256);
-            std::wstring filePath = textBuffer;
-
-            if (filePath.empty()) {
-                MessageBox(hwnd, L"请先获取存档路径！", L"提示", MB_OK);
-            }
-            else {
-                std::wstring url = L"https://super.henrylogistics.cn/upload/profiles.zip";
-                std::wstring savePath = filePath + L"\\profiles.zip";
-
-                // 创建一个句柄用于进行网络请求
-                HINTERNET hInternet = InternetOpen(L"HTTP", INTERNET_OPEN_TYPE_DIRECT, NULL, NULL, 0);
-                if (hInternet) {
-                    // 打开一个连接
-                    HINTERNET hConnect = InternetOpenUrl(hInternet, url.c_str(), NULL, 0, INTERNET_FLAG_RELOAD, 0);
-                    if (hConnect) {
-                        // 获取文件大小
-                        DWORD fileSize = 0;
-                        DWORD fileSizeLen = sizeof(fileSize);
-                        HttpQueryInfo(hConnect, HTTP_QUERY_CONTENT_LENGTH | HTTP_QUERY_FLAG_NUMBER, &fileSize, &fileSizeLen, NULL);
-
-                        // 创建一个文件来保存下载的内容
-                        std::ofstream file(savePath, std::ios::binary);
-                        if (file.is_open()) {
-                            char buffer[1024];
-                            DWORD bytesRead = 0;
-                            DWORD totalBytesRead = 0;
-
-                            // 创建进度条控件或标签控件
-                            HWND hProgressBar = CreateWindow(PROGRESS_CLASS, L"", WS_CHILD | WS_VISIBLE, 10, 300, 300, 20, hwnd, NULL, NULL, NULL);
-
-                            // 设置进度条的范围
-                            SendMessage(hProgressBar, PBM_SETRANGE, 0, MAKELPARAM(0, 100));
-
-                            // 开始读取网络响应并将其写入文件
-                            while (InternetReadFile(hConnect, buffer, sizeof(buffer), &bytesRead) && bytesRead > 0) {
-                                file.write(buffer, bytesRead);
-                                totalBytesRead += bytesRead;
-
-                                // 更新进度条控件的状态
-                                double progress = static_cast<double>(totalBytesRead) / static_cast<double>(fileSize);
-                                int progressBarPos = static_cast<int>(progress * 100);
-                                SendMessage(hProgressBar, PBM_SETPOS, progressBarPos, 0);
-
-                                // 处理消息队列，防止界面无响应
-                                MSG msg;
-                                while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
-                                    TranslateMessage(&msg);
-                                    DispatchMessage(&msg);
-                                }
-                            }
-
-                            file.close();
-                            std::wstring extractCommand = L"tar -xvf \"" + filePath + L"\\profiles.zip\" -C \"" + filePath + L"\"";
-                            _wsystem(extractCommand.c_str());
-
-                            std::wstring deleteCommand = L"del \"" + filePath + L"\\profiles.zip\"";
-                            _wsystem(deleteCommand.c_str());
-
-                            MessageBox(hwnd, L"存档替换成功！", L"提示", MB_OK);
-                        }
-                        else {
-                            MessageBox(hwnd, L"无法创建文件！", L"错误", MB_OK | MB_ICONERROR);
-                        }
-
-                        // 关闭连接
-                        InternetCloseHandle(hConnect);
-                    }
-                    else {
-                        MessageBox(hwnd, L"无法打开链接！", L"错误", MB_OK | MB_ICONERROR);
-                    }
-
-                    // 关闭网络请求句柄
-                    InternetCloseHandle(hInternet);
-                }
-                else {
-                    MessageBox(hwnd, L"无法打开网络！", L"错误", MB_OK | MB_ICONERROR);
-                }
-            }
-
-            break;
-        }
-
 
         case ID_BUTTON4: {
             wchar_t textBuffer[256];
@@ -434,7 +269,7 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
             std::wstring dlcPath = textBuffer;
 
             if (dlcPath.empty()) {
-                MessageBox(hwnd, L"请先获取DLC路径！", L"提示", MB_OK);
+                MessageBox(hwnd, L"Please get the DLC path first!", L"hint", MB_OK);
             }
             else {
                 std::vector<std::wstring> filesToMove = {
@@ -466,13 +301,13 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
                         MOVEFILE_REPLACE_EXISTING | MOVEFILE_COPY_ALLOWED)) {
                         DWORD errorCode = GetLastError();
                         if (errorCode != ERROR_FILE_NOT_FOUND) {
-                            MessageBox(hwnd, L"无法移动文件！", L"错误", MB_OK | MB_ICONERROR);
+                            MessageBox(hwnd, L"Unable to move file!", L"Error", MB_OK | MB_ICONERROR);
                             break;
                         }
                     }
                 }
 
-                MessageBox(hwnd, L"DLC禁用成功！", L"提示", MB_OK);
+                MessageBox(hwnd, L"DLC disabled successfully!", L"hint", MB_OK);
             }
             break;
         }
@@ -482,7 +317,7 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
             std::wstring dlcPath = textBuffer;
 
             if (dlcPath.empty()) {
-                MessageBox(hwnd, L"请先获取DLC路径！", L"提示", MB_OK);
+                MessageBox(hwnd, L"Please get the DLC path first!", L"hint", MB_OK);
             }
             else {
                 std::vector<std::wstring> filesToMove = {
@@ -513,13 +348,13 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
                         MOVEFILE_REPLACE_EXISTING | MOVEFILE_COPY_ALLOWED)) {
                         DWORD errorCode = GetLastError();
                         if (errorCode != ERROR_FILE_NOT_FOUND) {
-                            MessageBox(hwnd, L"无法移动文件！", L"错误", MB_OK | MB_ICONERROR);
+                            MessageBox(hwnd, L"Unable to move file!", L"Error", MB_OK | MB_ICONERROR);
                             break;
                         }
                     }
                 }
 
-                MessageBox(hwnd, L"DLC启用成功！", L"提示", MB_OK);
+                MessageBox(hwnd, L"DLC activated successfully!", L"hint", MB_OK);
             }
             break;
         }
