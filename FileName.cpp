@@ -1,4 +1,4 @@
-﻿#include <windows.h>
+#include <windows.h>
 #include <string>
 #include <vector>
 #include <wininet.h>
@@ -24,7 +24,14 @@ bool operator==(const std::string& lhs, const std::wstring& rhs) {
 #define ID_BUTTON3 3
 #define ID_BUTTON4 4
 #define ID_BUTTON5 5
-#define ID_BUTTON6 6
+#define ID_BUTTON15 15
+#define ID_BUTTON8 8
+#define ID_BUTTON9 9
+#define ID_BUTTON10 10
+#define ID_BUTTON11 11
+#define ID_BUTTON12 12
+#define ID_BUTTON13 13
+#define ID_BUTTON14 14
 #define IDC_STATIC_TEXT 7
 #define version 8
 
@@ -49,7 +56,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
         CLASS_NAME,
         L"Dlctools By:iamwannngg",
         WS_OVERLAPPEDWINDOW & ~WS_THICKFRAME & ~WS_MAXIMIZEBOX, // 禁止用户最大化和调整窗口大小
-        (GetSystemMetrics(SM_CXSCREEN) - 400) / 2, (GetSystemMetrics(SM_CYSCREEN) - 230) / 2, 400, 230, // 在桌面中间打开
+        (GetSystemMetrics(SM_CXSCREEN) - 400) / 2, (GetSystemMetrics(SM_CYSCREEN) - 300) / 2, 400, 300, // 在桌面中间打开
         NULL,
         NULL,
         hInstance,
@@ -122,7 +129,7 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
             std::string serverVersion(buffer);
 
             // 当前程序的版本号
-            std::wstring currentVersion = L"V.0.0.1";
+            std::wstring currentVersion = L"V.0.0.2";
 
             // 比较版本号
             if (serverVersion == currentVersion) {
@@ -139,10 +146,7 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
                 MessageBox(hwnd, L"If you find a new version, please update it in time!", L"hint", MB_OK | MB_ICONWARNING);
                 URLDownloadToFile(NULL, L"http://henrylogistics.cn/dlc/Project3.exe", L"Dlctools_new.exe", 0, NULL);
 
-                // 获取服务器返回的新版本号
-                std::string versionNumber = "V.0.0.1"; // 替换为从服务器获取的新版本号
-
-                std::wstring newFileName = L"Dlctools" + std::wstring(versionNumber.begin(), versionNumber.end()) + L".exe";
+                std::wstring newFileName = L"Dlctools" + std::wstring(serverVersion.begin(), serverVersion.end()) + L".exe";
                 std::wstring oldFileName = L"Dlctools_new.exe";
 
                 TCHAR szFileName[MAX_PATH];
@@ -178,20 +182,109 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
             10, 50, 360, 50,
             hwnd, NULL, GetModuleHandle(NULL), NULL);
 
-        CreateWindow(L"BUTTON", L"Disable DLC",
+        CreateWindow(L"BUTTON", L"Disable All DLC",
             WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,
             10, 110, 100, 40,
             hwnd, (HMENU)ID_BUTTON4, GetModuleHandle(NULL), NULL);
 
-        CreateWindow(L"BUTTON", L"Enable DLC",
+        CreateWindow(L"BUTTON", L"Enable All DLC",
             WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,
             150, 110, 100, 40,
             hwnd, (HMENU)ID_BUTTON5, GetModuleHandle(NULL), NULL);
 
+        CreateWindow(L"BUTTON", L"East!",
+            WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,
+            10, 160, 50, 20,
+            hwnd, (HMENU)ID_BUTTON8, GetModuleHandle(NULL), NULL);
+
+        HFONT hFont8 = CreateFont(13, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE,
+            DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS,
+            DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, L"宋体");
+
+        SendMessage(GetDlgItem(hwnd, ID_BUTTON1), WM_SETFONT, (WPARAM)hFont8, TRUE);
+
+        CreateWindow(L"BUTTON", L"Scan",
+            WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,
+            70, 160, 50, 20,
+            hwnd, (HMENU)ID_BUTTON9, GetModuleHandle(NULL), NULL);
+
+        HFONT hFont9 = CreateFont(13, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE,
+            DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS,
+            DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, L"宋体");
+
+        SendMessage(GetDlgItem(hwnd, ID_BUTTON1), WM_SETFONT, (WPARAM)hFont9, TRUE);
+
+        CreateWindow(L"BUTTON", L"France",
+            WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,
+            130, 160, 50, 20,
+            hwnd, (HMENU)ID_BUTTON10, GetModuleHandle(NULL), NULL);
+
+        HFONT hFont10 = CreateFont(13, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE,
+            DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS,
+            DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, L"宋体");
+
+        SendMessage(GetDlgItem(hwnd, ID_BUTTON1), WM_SETFONT, (WPARAM)hFont10, TRUE);
+
+        CreateWindow(L"BUTTON", L"Italia",
+            WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,
+            190, 160, 50, 20,
+            hwnd, (HMENU)ID_BUTTON11, GetModuleHandle(NULL), NULL);
+
+        HFONT hFont11 = CreateFont(13, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE,
+            DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS,
+            DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, L"宋体");
+
+        SendMessage(GetDlgItem(hwnd, ID_BUTTON1), WM_SETFONT, (WPARAM)hFont11, TRUE);
+
+        CreateWindow(L"BUTTON", L"Beyond",
+            WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,
+            10, 190, 50, 20,
+            hwnd, (HMENU)ID_BUTTON12, GetModuleHandle(NULL), NULL);
+
+        HFONT hFont12 = CreateFont(13, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE,
+            DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS,
+            DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, L"宋体");
+
+        SendMessage(GetDlgItem(hwnd, ID_BUTTON1), WM_SETFONT, (WPARAM)hFont12, TRUE);
+
+        CreateWindow(L"BUTTON", L"Black",
+            WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,
+            70, 190, 50, 20,
+            hwnd, (HMENU)ID_BUTTON13, GetModuleHandle(NULL), NULL);
+
+        HFONT hFont13 = CreateFont(13, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE,
+            DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS,
+            DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, L"宋体");
+
+        SendMessage(GetDlgItem(hwnd, ID_BUTTON1), WM_SETFONT, (WPARAM)hFont13, TRUE);
+
+        CreateWindow(L"BUTTON", L"Iberia",
+            WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,
+            130, 190, 50, 20,
+            hwnd, (HMENU)ID_BUTTON14, GetModuleHandle(NULL), NULL);
+
+        HFONT hFont14 = CreateFont(13, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE,
+            DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS,
+            DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, L"宋体");
+
+        SendMessage(GetDlgItem(hwnd, ID_BUTTON1), WM_SETFONT, (WPARAM)hFont14, TRUE);
+
+        CreateWindow(L"BUTTON", L"Balkans",
+            WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,
+            190, 190, 50, 20,
+            hwnd, (HMENU)ID_BUTTON15, GetModuleHandle(NULL), NULL);
+
+        HFONT hFont15 = CreateFont(13, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE,
+            DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS,
+            DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, L"宋体");
+
+        SendMessage(GetDlgItem(hwnd, ID_BUTTON1), WM_SETFONT, (WPARAM)hFont15, TRUE);
+
+
         // 创建静态文本控件
         HWND hStaticText = CreateWindow(L"STATIC", L"© 2024 Dlctools By:iamwannngg",
             WS_VISIBLE | WS_CHILD | SS_LEFT | WS_EX_TRANSPARENT,
-            10, 170, 380, 30,
+            10, 240, 380, 30,
             hwnd, (HMENU)IDC_STATIC_TEXT, GetModuleHandle(NULL), NULL);
 
         // 设置静态文本控件字体
@@ -200,9 +293,9 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
         SendMessage(hStaticText, WM_SETFONT, (WPARAM)hFont, TRUE);
 
         // 创建静态文本控件
-        HWND hStaticText2 = CreateWindow(L"STATIC", L"V.0.0.1",
+        HWND hStaticText2 = CreateWindow(L"STATIC", L"V.0.0.2",
             WS_VISIBLE | WS_CHILD | SS_LEFT | WS_EX_TRANSPARENT,
-            270, 170, 380, 30,
+            270, 240, 380, 30,
             hwnd, (HMENU)version, GetModuleHandle(NULL), NULL);
 
         HFONT hFont2 = CreateFont(17, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, DEFAULT_CHARSET,
@@ -214,6 +307,15 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
         SendMessage(GetDlgItem(hwnd, ID_BUTTON3), WM_SETFONT, (WPARAM)GetStockObject(DEFAULT_GUI_FONT), TRUE);
         SendMessage(GetDlgItem(hwnd, ID_BUTTON4), WM_SETFONT, (WPARAM)GetStockObject(DEFAULT_GUI_FONT), TRUE);
         SendMessage(GetDlgItem(hwnd, ID_BUTTON5), WM_SETFONT, (WPARAM)GetStockObject(DEFAULT_GUI_FONT), TRUE);
+        SendMessage(GetDlgItem(hwnd, ID_BUTTON11), WM_SETFONT, (WPARAM)GetStockObject(DEFAULT_GUI_FONT), TRUE);
+        SendMessage(GetDlgItem(hwnd, ID_BUTTON15), WM_SETFONT, (WPARAM)GetStockObject(DEFAULT_GUI_FONT), TRUE);
+        SendMessage(GetDlgItem(hwnd, ID_BUTTON8), WM_SETFONT, (WPARAM)GetStockObject(DEFAULT_GUI_FONT), TRUE);
+        SendMessage(GetDlgItem(hwnd, ID_BUTTON9), WM_SETFONT, (WPARAM)GetStockObject(DEFAULT_GUI_FONT), TRUE);
+        SendMessage(GetDlgItem(hwnd, ID_BUTTON10), WM_SETFONT, (WPARAM)GetStockObject(DEFAULT_GUI_FONT), TRUE);
+        SendMessage(GetDlgItem(hwnd, ID_BUTTON12), WM_SETFONT, (WPARAM)GetStockObject(DEFAULT_GUI_FONT), TRUE);
+        SendMessage(GetDlgItem(hwnd, ID_BUTTON13), WM_SETFONT, (WPARAM)GetStockObject(DEFAULT_GUI_FONT), TRUE);
+        SendMessage(GetDlgItem(hwnd, ID_BUTTON14), WM_SETFONT, (WPARAM)GetStockObject(DEFAULT_GUI_FONT), TRUE);
+
 
 
         SetWindowLongPtr(GetDlgItem(hwnd, ID_BUTTON1), GWL_EXSTYLE, GetWindowLongPtr(GetDlgItem(hwnd, ID_BUTTON1), GWL_EXSTYLE) | WS_EX_STATICEDGE);
@@ -221,6 +323,14 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
         SetWindowLongPtr(GetDlgItem(hwnd, ID_BUTTON3), GWL_EXSTYLE, GetWindowLongPtr(GetDlgItem(hwnd, ID_BUTTON3), GWL_EXSTYLE) | WS_EX_STATICEDGE);
         SetWindowLongPtr(GetDlgItem(hwnd, ID_BUTTON4), GWL_EXSTYLE, GetWindowLongPtr(GetDlgItem(hwnd, ID_BUTTON4), GWL_EXSTYLE) | WS_EX_STATICEDGE);
         SetWindowLongPtr(GetDlgItem(hwnd, ID_BUTTON5), GWL_EXSTYLE, GetWindowLongPtr(GetDlgItem(hwnd, ID_BUTTON5), GWL_EXSTYLE) | WS_EX_STATICEDGE);
+        SetWindowLongPtr(GetDlgItem(hwnd, ID_BUTTON11), GWL_EXSTYLE, GetWindowLongPtr(GetDlgItem(hwnd, ID_BUTTON5), GWL_EXSTYLE) | WS_EX_STATICEDGE);
+        SetWindowLongPtr(GetDlgItem(hwnd, ID_BUTTON15), GWL_EXSTYLE, GetWindowLongPtr(GetDlgItem(hwnd, ID_BUTTON5), GWL_EXSTYLE) | WS_EX_STATICEDGE);
+        SetWindowLongPtr(GetDlgItem(hwnd, ID_BUTTON8), GWL_EXSTYLE, GetWindowLongPtr(GetDlgItem(hwnd, ID_BUTTON5), GWL_EXSTYLE) | WS_EX_STATICEDGE);
+        SetWindowLongPtr(GetDlgItem(hwnd, ID_BUTTON9), GWL_EXSTYLE, GetWindowLongPtr(GetDlgItem(hwnd, ID_BUTTON5), GWL_EXSTYLE) | WS_EX_STATICEDGE);
+        SetWindowLongPtr(GetDlgItem(hwnd, ID_BUTTON10), GWL_EXSTYLE, GetWindowLongPtr(GetDlgItem(hwnd, ID_BUTTON5), GWL_EXSTYLE) | WS_EX_STATICEDGE);
+        SetWindowLongPtr(GetDlgItem(hwnd, ID_BUTTON12), GWL_EXSTYLE, GetWindowLongPtr(GetDlgItem(hwnd, ID_BUTTON5), GWL_EXSTYLE) | WS_EX_STATICEDGE);
+        SetWindowLongPtr(GetDlgItem(hwnd, ID_BUTTON13), GWL_EXSTYLE, GetWindowLongPtr(GetDlgItem(hwnd, ID_BUTTON5), GWL_EXSTYLE) | WS_EX_STATICEDGE);
+        SetWindowLongPtr(GetDlgItem(hwnd, ID_BUTTON14), GWL_EXSTYLE, GetWindowLongPtr(GetDlgItem(hwnd, ID_BUTTON5), GWL_EXSTYLE) | WS_EX_STATICEDGE);
 
         break;
     }
@@ -358,6 +468,207 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
             }
             break;
         }
+        case ID_BUTTON8: {
+            wchar_t textBuffer[256];
+            GetWindowText(g_hTextBox2, textBuffer, 256);
+            std::wstring dlcPath = textBuffer;
+
+            if (dlcPath.empty()) {
+                MessageBox(hwnd, L"Please get the DLC path first!", L"hint", MB_OK);
+            }
+            else {
+                std::wstring sourceFilePath = dlcPath + L"\\Temp\\dlc_east.scs";
+                std::wstring destinationFilePath = dlcPath + L"\\dlc_east.scs";
+
+                if (MoveFileEx(sourceFilePath.c_str(), destinationFilePath.c_str(),
+                    MOVEFILE_REPLACE_EXISTING | MOVEFILE_COPY_ALLOWED)) {
+                    MessageBox(hwnd, L"Successfully moved Going East! back!", L"hint", MB_OK);
+                }
+                else {
+                    DWORD errorCode = GetLastError();
+                    if (errorCode != ERROR_FILE_NOT_FOUND) {
+                        MessageBox(hwnd, L"Unable to move file!", L"Error", MB_OK | MB_ICONERROR);
+                    }
+                }
+            }
+            break;
+        }
+        case ID_BUTTON9: {
+            wchar_t textBuffer[256];
+            GetWindowText(g_hTextBox2, textBuffer, 256);
+            std::wstring dlcPath = textBuffer;
+
+            if (dlcPath.empty()) {
+                MessageBox(hwnd, L"Please get the DLC path first!", L"hint", MB_OK);
+            }
+            else {
+                std::wstring sourceFilePath = dlcPath + L"\\Temp\\dlc_north.scs";
+                std::wstring destinationFilePath = dlcPath + L"\\dlc_north.scs";
+
+                if (MoveFileEx(sourceFilePath.c_str(), destinationFilePath.c_str(),
+                    MOVEFILE_REPLACE_EXISTING | MOVEFILE_COPY_ALLOWED)) {
+                    MessageBox(hwnd, L"Successfully moved Scandinavia back!", L"hint", MB_OK);
+                }
+                else {
+                    DWORD errorCode = GetLastError();
+                    if (errorCode != ERROR_FILE_NOT_FOUND) {
+                        MessageBox(hwnd, L"Unable to move file!", L"Error", MB_OK | MB_ICONERROR);
+                    }
+                }
+            }
+            break;
+        }
+        case ID_BUTTON10: {
+            wchar_t textBuffer[256];
+            GetWindowText(g_hTextBox2, textBuffer, 256);
+            std::wstring dlcPath = textBuffer;
+
+            if (dlcPath.empty()) {
+                MessageBox(hwnd, L"Please get the DLC path first!", L"hint", MB_OK);
+            }
+            else {
+                std::wstring sourceFilePath = dlcPath + L"\\Temp\\dlc_fr.scs";
+                std::wstring destinationFilePath = dlcPath + L"\\dlc_fr.scs";
+
+                if (MoveFileEx(sourceFilePath.c_str(), destinationFilePath.c_str(),
+                    MOVEFILE_REPLACE_EXISTING | MOVEFILE_COPY_ALLOWED)) {
+                    MessageBox(hwnd, L"Successfully moved Vive la France ! back!", L"hint", MB_OK);
+                }
+                else {
+                    DWORD errorCode = GetLastError();
+                    if (errorCode != ERROR_FILE_NOT_FOUND) {
+                        MessageBox(hwnd, L"Unable to move file!", L"Error", MB_OK | MB_ICONERROR);
+                    }
+                }
+            }
+            break;
+        }
+        case ID_BUTTON11: {
+            wchar_t textBuffer[256];
+            GetWindowText(g_hTextBox2, textBuffer, 256);
+            std::wstring dlcPath = textBuffer;
+
+            if (dlcPath.empty()) {
+                MessageBox(hwnd, L"Please get the DLC path first!", L"hint", MB_OK);
+            }
+            else {
+                std::wstring sourceFilePath = dlcPath + L"\\Temp\\dlc_it.scs";
+                std::wstring destinationFilePath = dlcPath + L"\\dlc_it.scs";
+
+                if (MoveFileEx(sourceFilePath.c_str(), destinationFilePath.c_str(),
+                    MOVEFILE_REPLACE_EXISTING | MOVEFILE_COPY_ALLOWED)) {
+                    MessageBox(hwnd, L"Successfully moved Italia back!", L"hint", MB_OK);
+                }
+                else {
+                    DWORD errorCode = GetLastError();
+                    if (errorCode != ERROR_FILE_NOT_FOUND) {
+                        MessageBox(hwnd, L"Unable to move file!", L"Error", MB_OK | MB_ICONERROR);
+                    }
+                }
+            }
+            break;
+        }
+        case ID_BUTTON12: {
+            wchar_t textBuffer[256];
+            GetWindowText(g_hTextBox2, textBuffer, 256);
+            std::wstring dlcPath = textBuffer;
+
+            if (dlcPath.empty()) {
+                MessageBox(hwnd, L"Please get the DLC path first!", L"hint", MB_OK);
+            }
+            else {
+                std::wstring sourceFilePath = dlcPath + L"\\Temp\\dlc_balt.scs";
+                std::wstring destinationFilePath = dlcPath + L"\\dlc_balt.scs";
+
+                if (MoveFileEx(sourceFilePath.c_str(), destinationFilePath.c_str(),
+                    MOVEFILE_REPLACE_EXISTING | MOVEFILE_COPY_ALLOWED)) {
+                    MessageBox(hwnd, L"Successfully moved Beyond the Baltic Sea back!", L"hint", MB_OK);
+                }
+                else {
+                    DWORD errorCode = GetLastError();
+                    if (errorCode != ERROR_FILE_NOT_FOUND) {
+                        MessageBox(hwnd, L"Unable to move file!", L"Error", MB_OK | MB_ICONERROR);
+                    }
+                }
+            }
+            break;
+        }
+        case ID_BUTTON13: {
+            wchar_t textBuffer[256];
+            GetWindowText(g_hTextBox2, textBuffer, 256);
+            std::wstring dlcPath = textBuffer;
+
+            if (dlcPath.empty()) {
+                MessageBox(hwnd, L"Please get the DLC path first!", L"hint", MB_OK);
+            }
+            else {
+                std::wstring sourceFilePath = dlcPath + L"\\Temp\\dlc_balkan_e.scs";
+                std::wstring destinationFilePath = dlcPath + L"\\dlc_balkan_e.scs";
+
+                if (MoveFileEx(sourceFilePath.c_str(), destinationFilePath.c_str(),
+                    MOVEFILE_REPLACE_EXISTING | MOVEFILE_COPY_ALLOWED)) {
+                    MessageBox(hwnd, L"Successfully moved Road to the Black Sea back!", L"hint", MB_OK);
+                }
+                else {
+                    DWORD errorCode = GetLastError();
+                    if (errorCode != ERROR_FILE_NOT_FOUND) {
+                        MessageBox(hwnd, L"Unable to move file!", L"Error", MB_OK | MB_ICONERROR);
+                    }
+                }
+            }
+            break;
+        }
+        case ID_BUTTON14: {
+            wchar_t textBuffer[256];
+            GetWindowText(g_hTextBox2, textBuffer, 256);
+            std::wstring dlcPath = textBuffer;
+
+            if (dlcPath.empty()) {
+                MessageBox(hwnd, L"Please get the DLC path first!", L"hint", MB_OK);
+            }
+            else {
+                std::wstring sourceFilePath = dlcPath + L"\\Temp\\dlc_iberia.scs";
+                std::wstring destinationFilePath = dlcPath + L"\\dlc_iberia.scs";
+
+                if (MoveFileEx(sourceFilePath.c_str(), destinationFilePath.c_str(),
+                    MOVEFILE_REPLACE_EXISTING | MOVEFILE_COPY_ALLOWED)) {
+                    MessageBox(hwnd, L"Successfully moved Iberia back!", L"hint", MB_OK);
+                }
+                else {
+                    DWORD errorCode = GetLastError();
+                    if (errorCode != ERROR_FILE_NOT_FOUND) {
+                        MessageBox(hwnd, L"Unable to move file!", L"Error", MB_OK | MB_ICONERROR);
+                    }
+                }
+            }
+            break;
+        }
+        case ID_BUTTON15: {
+            wchar_t textBuffer[256];
+            GetWindowText(g_hTextBox2, textBuffer, 256);
+            std::wstring dlcPath = textBuffer;
+
+            if (dlcPath.empty()) {
+                MessageBox(hwnd, L"Please get the DLC path first!", L"hint", MB_OK);
+            }
+            else {
+                std::wstring sourceFilePath = dlcPath + L"\\Temp\\dlc_balkan_w.scs";
+                std::wstring destinationFilePath = dlcPath + L"\\dlc_balkan_w.scs";
+
+                if (MoveFileEx(sourceFilePath.c_str(), destinationFilePath.c_str(),
+                    MOVEFILE_REPLACE_EXISTING | MOVEFILE_COPY_ALLOWED)) {
+                    MessageBox(hwnd, L"Successfully moved West Balkanss back!", L"hint", MB_OK);
+                }
+                else {
+                    DWORD errorCode = GetLastError();
+                    if (errorCode != ERROR_FILE_NOT_FOUND) {
+                        MessageBox(hwnd, L"Unable to move file!", L"Error", MB_OK | MB_ICONERROR);
+                    }
+                }
+            }
+            break;
+        }
+
         }
         break;
     }
